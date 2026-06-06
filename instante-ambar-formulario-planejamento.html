@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Formulário de Planejamento — Instante Âmbar</title>
+  <style>
+    :root {
+      --bg: #faf7f3;
+      --card: #fffdfa;
+      --ink: #2b211d;
+      --muted: #756a64;
+      --line: #eadfd6;
+      --accent: #a9795f;
+      --accent-dark: #6f4633;
+      --soft: #f3e9e1;
+      --danger: #8f2f2f;
+      --ok: #3f6b4f;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(54, 35, 24, .08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(169,121,95,.13), transparent 28rem),
+        radial-gradient(circle at 90% 10%, rgba(224,190,174,.20), transparent 30rem),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 42px 20px 24px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: rgba(255,253,250,.72);
+      border: 1px solid rgba(234,223,214,.9);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      padding: 28px;
+      backdrop-filter: blur(12px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 800px;
+      font-size: 1.02rem;
+      margin: 0 0 18px;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(250,247,243,.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 20px;
+    }
+
+    .toolbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .actions, .small-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button, .file-label {
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      padding: 10px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .92rem;
+      transition: .16s ease;
+      box-shadow: 0 3px 12px rgba(54, 35, 24, .04);
+    }
+
+    button:hover, .file-label:hover {
+      transform: translateY(-1px);
+      border-color: rgba(169,121,95,.55);
+      box-shadow: 0 8px 18px rgba(54, 35, 24, .08);
+    }
+
+    button.primary {
+      background: var(--accent-dark);
+      color: #fffdfa;
+      border-color: var(--accent-dark);
+    }
+
+    button.danger {
+      color: var(--danger);
+    }
+
+    input[type="file"] { display: none; }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    nav {
+      position: sticky;
+      top: 74px;
+      align-self: start;
+      background: rgba(255,253,250,.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    nav a {
+      display: block;
+      padding: 9px 10px;
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: .92rem;
+    }
+
+    nav a:hover {
+      background: var(--soft);
+      color: var(--ink);
+    }
+
+    .progress-wrap {
+      margin: 10px 0 14px;
+      height: 10px;
+      background: var(--soft);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+      transition: width .2s ease;
+    }
+
+    .progress-text {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    section {
+      background: rgba(255,253,250,.88);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      scroll-margin-top: 95px;
+    }
+
+    section h2 {
+      margin: 0 0 4px;
+      font-size: 1.6rem;
+      letter-spacing: -0.03em;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+    }
+
+    section p.hint {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0,1fr));
+    }
+
+    label.field {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field-title {
+      font-weight: 650;
+      font-size: .92rem;
+    }
+
+    .field-help {
+      display: block;
+      color: var(--muted);
+      font-weight: 400;
+      font-size: .82rem;
+      margin-top: 2px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 11px 12px;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(169,121,95,.7);
+      box-shadow: 0 0 0 4px rgba(169,121,95,.12);
+    }
+
+    .certainty {
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .repeatable {
+      display: grid;
+      gap: 10px;
+    }
+
+    .repeat-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr)) auto;
+      gap: 8px;
+      align-items: end;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 10px;
+    }
+
+    .repeat-row.three-cols {
+      grid-template-columns: repeat(3, minmax(0,1fr)) auto;
+    }
+
+    .repeat-row.six-cols {
+      grid-template-columns: 1.2fr .8fr .8fr .8fr .8fr auto;
+    }
+
+    .mini-label {
+      font-size: .76rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .remove {
+      height: 42px;
+      width: 42px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--danger);
+      box-shadow: none;
+    }
+
+    .pill-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      color: var(--accent-dark);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: .85rem;
+      margin-top: 6px;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 10px;
+      border-radius: 14px;
+      font-size: .92rem;
+    }
+
+    .check input {
+      width: auto;
+    }
+
+    .summary-box {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .metric {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 13px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.28rem;
+      letter-spacing: -.03em;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 20px 44px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: var(--ink);
+      color: #fff;
+      padding: 11px 14px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .2s ease;
+      pointer-events: none;
+      z-index: 20;
+      max-width: 320px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 920px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      nav {
+        position: static;
+      }
+      .grid, .grid.three, .summary-box {
+        grid-template-columns: 1fr;
+      }
+      .certainty {
+        grid-template-columns: 1fr;
+      }
+      .repeat-row, .repeat-row.three-cols, .repeat-row.six-cols {
+        grid-template-columns: 1fr;
+      }
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      .toolbar, nav, button, .file-label, .remove { display: none !important; }
+      body { background: white; }
+      main { display: block; max-width: none; }
+      section { box-shadow: none; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <h1>Formulário de Planejamento</h1>
+      <p class="subtitle">
+        Instante Âmbar — levantamento prático para transformar a ideia em um plano de curto, médio e longo prazo.
+        Preencha com calma. Quando não souber, marque como “Precisa pesquisar”.
+      </p>
+      <span class="pill-note">🕯️ Salva automaticamente neste navegador</span>
+      <span class="pill-note">Exporta JSON, Markdown e CSV</span>
+      <span class="pill-note">Funciona offline depois de baixado</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div>
+        <div class="progress-text" id="progressText">0% preenchido</div>
+        <div class="progress-wrap" aria-label="Progresso de preenchimento"><div class="progress" id="progress"></div></div>
+      </div>
+      <div class="actions">
+        <button class="primary" type="button" onclick="exportJSON()">Exportar JSON</button>
+        <button type="button" onclick="exportMarkdown()">Exportar Markdown</button>
+        <button type="button" onclick="exportCSV()">Exportar CSV</button>
+        <label class="file-label" for="importFile">Importar JSON</label>
+        <input id="importFile" type="file" accept="application/json,.json" onchange="importJSON(event)" />
+        <button class="danger" type="button" onclick="clearAll()">Limpar</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <nav>
+      <a href="#visao">1. Visão</a>
+      <a href="#produto">2. Produto inicial</a>
+      <a href="#qualidade">3. Fórmula e qualidade</a>
+      <a href="#fornecedores">4. Fornecedores</a>
+      <a href="#custos">5. Custo por unidade</a>
+      <a href="#investimento">6. Investimento inicial</a>
+      <a href="#embalagem">7. Embalagem</a>
+      <a href="#preco">8. Preço</a>
+      <a href="#vendas">9. Vendas</a>
+      <a href="#conteudo">10. Conteúdo</a>
+      <a href="#producao">11. Produção</a>
+      <a href="#erp">12. ERP</a>
+      <a href="#risco">13. Finanças e risco</a>
+      <a href="#planos">14. Planos</a>
+      <a href="#decisao">15. Decisão final</a>
+    </nav>
+
+    <div class="content">
+      <section id="visao">
+        <h2>1. Visão inicial do negócio</h2>
+        <p class="hint">Defina a intenção da marca sem pensar ainda em perfeição.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Em uma frase, o que é a Instante Âmbar?</span><textarea name="visao_frase"></textarea></label>
+          <label class="field"><span class="field-title">O que você quer entregar além de uma vela?</span><textarea name="visao_entrega"></textarea></label>
+          <label class="field"><span class="field-title">Qual é a promessa principal da marca hoje?</span><textarea name="visao_promessa"></textarea></label>
+          <label class="field"><span class="field-title">O que você NÃO quer que a marca pareça?</span><textarea name="visao_nao_quer"></textarea></label>
+          <label class="field"><span class="field-title">Qual seria um começo aceitável?</span><textarea name="visao_comeco_aceitavel"></textarea></label>
+          <label class="field"><span class="field-title">Qual seria um começo frustrante?</span><textarea name="visao_comeco_frustrante"></textarea></label>
+        </div>
+      </section>
+
+      <section id="produto">
+        <h2>2. Produto inicial</h2>
+        <p class="hint">Escolha poucos produtos para validar sem travar em excesso de opções.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Quais produtos entram no primeiro momento?</span><textarea name="produto_primeiro_momento" placeholder="Ex.: vela em pote de vidro, kit simples, refil..."></textarea></label>
+          <label class="field"><span class="field-title">Quantos aromas no lançamento parecem realistas?</span><input name="produto_qtd_aromas" type="text"></label>
+          <label class="field"><span class="field-title">Qual tamanho/capacidade da primeira vela?</span><input name="produto_tamanho" type="text" placeholder="Ex.: 156 ml"></label>
+          <label class="field"><span class="field-title">O que seria inaceitável em uma vela vendida?</span><textarea name="produto_inaceitavel"></textarea></label>
+        </div>
+
+        <h3>Aromas iniciais</h3>
+        <div class="repeatable" data-repeat="aromas" data-cols="Aroma|Motivo|Prioridade|Status"></div>
+        <button type="button" onclick="addRow('aromas')">Adicionar aroma</button>
+      </section>
+
+      <section id="qualidade">
+        <h2>3. Fórmula, testes e qualidade</h2>
+        <p class="hint">A promessa do aroma depende de teste, documentação e consistência.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Qual cera pretende usar ou testar?</span><textarea name="qualidade_cera"></textarea></label>
+          <label class="field"><span class="field-title">Qual concentração de essência pretende testar?</span><input name="qualidade_concentracao" type="text" placeholder="Ex.: 8%, 10%, 12%"></label>
+          <label class="field"><span class="field-title">Qual pavio pretende usar?</span><input name="qualidade_pavio" type="text"></label>
+          <label class="field"><span class="field-title">Quantas velas de teste consegue fazer antes de vender?</span><input name="qualidade_qtd_testes" type="text"></label>
+          <label class="field"><span class="field-title">Qual etapa técnica mais dá insegurança?</span><textarea name="qualidade_inseguranca"></textarea></label>
+          <label class="field"><span class="field-title">Quais critérios tornam a vela aprovada?</span><textarea name="qualidade_criterios"></textarea></label>
+        </div>
+
+        <h3>Pessoas para testar</h3>
+        <div class="repeatable" data-repeat="testadores" data-cols="Pessoa|Ambiente|Feedback esperado|Status"></div>
+        <button type="button" onclick="addRow('testadores')">Adicionar pessoa</button>
+      </section>
+
+      <section id="fornecedores">
+        <h2>4. Fornecedores e compras</h2>
+        <p class="hint">Cadastre opções mesmo que ainda sejam apenas estimativas.</p>
+        <div class="repeatable" data-repeat="fornecedores" data-cols="Categoria|Fornecedor|Preço/condição|Status"></div>
+        <button type="button" onclick="addRow('fornecedores')">Adicionar fornecedor</button>
+
+        <div class="grid" style="margin-top:14px">
+          <label class="field"><span class="field-title">Itens sem fornecedor definido</span><textarea name="fornecedores_sem_definicao"></textarea></label>
+          <label class="field"><span class="field-title">Itens que dependem de loja física</span><textarea name="fornecedores_loja_fisica"></textarea></label>
+          <label class="field"><span class="field-title">Itens que podem ser comprados online</span><textarea name="fornecedores_online"></textarea></label>
+          <label class="field"><span class="field-title">Maiores dúvidas sobre compras</span><textarea name="fornecedores_duvidas"></textarea></label>
+        </div>
+      </section>
+
+      <section id="custos">
+        <h2>5. Custo por unidade</h2>
+        <p class="hint">Use valores estimados. O importante é sair do “acho” para uma conta rastreável.</p>
+        <div class="repeatable" data-repeat="custos" data-cols="Item|Custo total comprado|Rende quantas velas|Custo por vela"></div>
+        <button type="button" onclick="addRow('custos')">Adicionar item de custo</button>
+
+        <div class="summary-box">
+          <div class="metric"><strong id="metricCusto">R$ 0,00</strong><span>Custo por vela informado</span></div>
+          <div class="metric"><strong id="metricPreco">R$ 0,00</strong><span>Preço planejado</span></div>
+          <div class="metric"><strong id="metricLucro">R$ 0,00</strong><span>Lucro bruto estimado</span></div>
+          <div class="metric"><strong id="metricMargem">0%</strong><span>Margem bruta estimada</span></div>
+        </div>
+
+        <div class="grid" style="margin-top:14px">
+          <label class="field"><span class="field-title">Preço que gostaria de vender</span><input name="custos_preco_venda" type="number" min="0" step="0.01" oninput="updateMetrics()"></label>
+          <label class="field"><span class="field-title">Observações sobre perdas/testes/taxas</span><textarea name="custos_observacoes"></textarea></label>
+        </div>
+      </section>
+
+      <section id="investimento">
+        <h2>6. Investimento inicial</h2>
+        <p class="hint">Separe o mínimo para testar, o mínimo para vender e o ideal para começar com folga.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Investimento mínimo para testar</span><input name="investimento_min_teste" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Investimento mínimo para vender o primeiro lote</span><input name="investimento_min_venda" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Investimento ideal, mas não obrigatório</span><input name="investimento_ideal" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">O que pode ficar para depois?</span><textarea name="investimento_depois"></textarea></label>
+        </div>
+        <h3>Itens obrigatórios para começar</h3>
+        <div class="repeatable" data-repeat="investimentos" data-cols="Item|Já tem?|Precisa comprar?|Valor estimado"></div>
+        <button type="button" onclick="addRow('investimentos')">Adicionar item</button>
+      </section>
+
+      <section id="embalagem">
+        <h2>7. Embalagem e parte gráfica</h2>
+        <p class="hint">O objetivo inicial é parecer simples e cuidadoso, não improvisado.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">O que a embalagem inicial precisa comunicar?</span><textarea name="embalagem_comunicar"></textarea></label>
+          <label class="field"><span class="field-title">Como explicar que a primeira edição será simples?</span><textarea name="embalagem_explicacao"></textarea></label>
+          <label class="field"><span class="field-title">O que seria bonito ter, mas não cabe agora?</span><textarea name="embalagem_futuro"></textarea></label>
+          <label class="field"><span class="field-title">O que precisa melhorar antes de vender?</span><textarea name="embalagem_melhorias"></textarea></label>
+        </div>
+
+        <h3>Itens da embalagem mínima</h3>
+        <div class="check-grid">
+          <label class="check"><input type="checkbox" name="embalagem_item_etiqueta_frontal"> Etiqueta frontal</label>
+          <label class="check"><input type="checkbox" name="embalagem_item_etiqueta_base"> Etiqueta inferior técnica</label>
+          <label class="check"><input type="checkbox" name="embalagem_item_caixa"> Caixa individual</label>
+          <label class="check"><input type="checkbox" name="embalagem_item_protecao"> Papel de proteção</label>
+          <label class="check"><input type="checkbox" name="embalagem_item_cartao"> Cartão/bilhete</label>
+          <label class="check"><input type="checkbox" name="embalagem_item_adesivo"> Adesivo da marca</label>
+        </div>
+      </section>
+
+      <section id="preco">
+        <h2>8. Preço e posicionamento</h2>
+        <p class="hint">Defina preço de validação sem confundir com preço definitivo da marca madura.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Quanto a cliente pagaria hoje pela vela simples?</span><input name="preco_cliente_hoje" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Quanto gostaria de cobrar com a marca estruturada?</span><input name="preco_futuro" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Por qual preço NÃO venderia porque não compensa?</span><input name="preco_minimo" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Qual preço parece justo para o primeiro lote?</span><input name="preco_primeiro_lote" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Esse primeiro preço será</span>
+            <select name="preco_tipo">
+              <option value=""></option>
+              <option>Preço promocional de validação</option>
+              <option>Preço definitivo</option>
+              <option>Preço para amigas/conhecidas</option>
+              <option>Preço de pré-venda</option>
+              <option>Ainda não sei</option>
+            </select>
+          </label>
+          <label class="field"><span class="field-title">Quantas velas precisa vender para recuperar o investimento?</span><input name="preco_qtd_recuperar" type="text"></label>
+        </div>
+      </section>
+
+      <section id="vendas">
+        <h2>9. Vendas e canais</h2>
+        <p class="hint">Escolha um canal principal para os primeiros 30 dias.</p>
+        <div class="check-grid">
+          <label class="check"><input type="checkbox" name="vendas_canal_instagram"> Instagram</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_whatsapp"> WhatsApp</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_amigos"> Amigos/família</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_indicacoes"> Indicações</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_feiras"> Feiras</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_marketplace"> Marketplace</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_site"> Site próprio</label>
+          <label class="check"><input type="checkbox" name="vendas_canal_outro"> Outro</label>
+        </div>
+
+        <div class="grid" style="margin-top:14px">
+          <label class="field"><span class="field-title">Canal mais realista nos primeiros 30 dias</span><input name="vendas_canal_realista" type="text"></label>
+          <label class="field"><span class="field-title">Venderia por encomenda?</span><select name="vendas_encomenda"><option></option><option>Sim</option><option>Não</option><option>Talvez</option></select></label>
+          <label class="field"><span class="field-title">Aceitaria pré-venda?</span><select name="vendas_pre_venda"><option></option><option>Sim</option><option>Não</option><option>Talvez</option></select></label>
+          <label class="field"><span class="field-title">Prazo de produção seguro</span><input name="vendas_prazo" type="text"></label>
+        </div>
+
+        <h3>Primeiras pessoas que poderiam comprar ou indicar</h3>
+        <div class="repeatable" data-repeat="primeiros_contatos" data-cols="Nome|Compraria?|Indicaria?|Observação"></div>
+        <button type="button" onclick="addRow('primeiros_contatos')">Adicionar pessoa</button>
+      </section>
+
+      <section id="conteudo">
+        <h2>10. Conteúdo e divulgação</h2>
+        <p class="hint">O conteúdo precisa ser leve o suficiente para manter constância.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Você se sente confortável aparecendo nos stories?</span><select name="conteudo_aparecer"><option></option><option>Sim</option><option>Não</option><option>Às vezes</option></select></label>
+          <label class="field"><span class="field-title">Quantas vezes por semana consegue postar sem virar peso?</span><input name="conteudo_frequencia" type="text"></label>
+          <label class="field"><span class="field-title">Quais conteúdos combinam mais com a marca?</span><textarea name="conteudo_combina"></textarea></label>
+          <label class="field"><span class="field-title">O que não quer fazer de jeito nenhum?</span><textarea name="conteudo_nao_quer"></textarea></label>
+        </div>
+        <h3>Formatos possíveis</h3>
+        <div class="check-grid">
+          <label class="check"><input type="checkbox" name="conteudo_tipo_bastidores"> Bastidores</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_produto"> Produto pronto</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_embalando"> Embalando pedidos</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_testes"> Testes de aroma</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_rotina"> Rotina de produção</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_frases"> Frases de autocuidado</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_literario"> Conteúdo literário</label>
+          <label class="check"><input type="checkbox" name="conteudo_tipo_depoimentos"> Depoimentos</label>
+        </div>
+      </section>
+
+      <section id="producao">
+        <h2>11. Produção e rotina</h2>
+        <p class="hint">Defina capacidade realista para não prometer mais do que consegue entregar.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Onde as velas serão produzidas?</span><input name="producao_local" type="text"></label>
+          <label class="field"><span class="field-title">Quantas horas por semana consegue dedicar?</span><input name="producao_horas" type="text"></label>
+          <label class="field"><span class="field-title">Quantas velas consegue produzir por semana no início?</span><input name="producao_capacidade" type="text"></label>
+          <label class="field"><span class="field-title">Qual etapa mais te dá insegurança?</span><textarea name="producao_inseguranca"></textarea></label>
+        </div>
+        <h3>Etapas que já sabe fazer</h3>
+        <div class="check-grid">
+          <label class="check"><input type="checkbox" name="producao_etapa_derreter"> Derreter cera</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_temperatura"> Medir temperatura</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_essencia"> Adicionar essência</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_pavio"> Fixar pavio</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_envasar"> Envasar</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_cura"> Curar vela</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_teste"> Testar queima</label>
+          <label class="check"><input type="checkbox" name="producao_etapa_embalar"> Embalar</label>
+        </div>
+      </section>
+
+      <section id="erp">
+        <h2>12. Estoque e ERP</h2>
+        <p class="hint">O ERP gratuito é uma vantagem: ele deve responder custo, estoque, produção e reposição.</p>
+        <div class="check-grid">
+          <label class="check"><input type="checkbox" name="erp_insumos"> Insumos</label>
+          <label class="check"><input type="checkbox" name="erp_fornecedores"> Fornecedores</label>
+          <label class="check"><input type="checkbox" name="erp_formulas"> Fórmulas</label>
+          <label class="check"><input type="checkbox" name="erp_lotes"> Lotes</label>
+          <label class="check"><input type="checkbox" name="erp_producao"> Produção</label>
+          <label class="check"><input type="checkbox" name="erp_estoque"> Estoque de velas prontas</label>
+          <label class="check"><input type="checkbox" name="erp_pedidos"> Pedidos</label>
+          <label class="check"><input type="checkbox" name="erp_clientes"> Clientes</label>
+          <label class="check"><input type="checkbox" name="erp_custos"> Custos</label>
+          <label class="check"><input type="checkbox" name="erp_lucro"> Lucro por produto</label>
+          <label class="check"><input type="checkbox" name="erp_financeiro"> Financeiro simples</label>
+          <label class="check"><input type="checkbox" name="erp_relatorios"> Relatórios</label>
+        </div>
+        <div class="grid" style="margin-top:14px">
+          <label class="field"><span class="field-title">O que hoje seria pior perder o controle?</span><textarea name="erp_pior_perder_controle"></textarea></label>
+          <label class="field"><span class="field-title">Que decisão o ERP precisa facilitar?</span><textarea name="erp_decisao_facilitar" placeholder="Ex.: posso vender por R$ 65? quanto preciso comprar?"></textarea></label>
+        </div>
+      </section>
+
+      <section id="risco">
+        <h2>13. Finanças pessoais e risco</h2>
+        <p class="hint">O crédito só deve entrar depois de entender risco, retorno e objetivo do dinheiro.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Quanto dá para investir sem empréstimo?</span><input name="risco_sem_emprestimo" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Valor máximo de prejuízo aceitável no teste</span><input name="risco_prejuizo_aceitavel" type="number" min="0" step="0.01"></label>
+          <label class="field"><span class="field-title">Antes de empréstimo, qual resultado mínimo quer provar?</span><textarea name="risco_resultado_minimo"></textarea></label>
+          <label class="field"><span class="field-title">Em que situação um empréstimo faria sentido?</span><textarea name="risco_emprestimo_sentido"></textarea></label>
+          <label class="field"><span class="field-title">Em que situação um empréstimo NÃO faria sentido?</span><textarea name="risco_emprestimo_nao"></textarea></label>
+          <label class="field"><span class="field-title">Maior medo financeiro agora</span><textarea name="risco_medo"></textarea></label>
+        </div>
+      </section>
+
+      <section id="planos">
+        <h2>14. Plano de curto, médio e longo prazo</h2>
+        <p class="hint">Transforme respostas em marcos objetivos.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Curto prazo — 0 a 30 dias</span><textarea name="plano_30" placeholder="Objetivo, tarefas, resultado esperado..."></textarea></label>
+          <label class="field"><span class="field-title">Médio prazo — 31 a 90 dias</span><textarea name="plano_90" placeholder="Primeiro lote, feedback, ajustes, fornecedores..."></textarea></label>
+          <label class="field"><span class="field-title">Longo prazo — 3 a 12 meses</span><textarea name="plano_12m" placeholder="Embalagem premium, coleção literária, site, feiras..."></textarea></label>
+          <label class="field"><span class="field-title">O que só entra depois de validar a base?</span><textarea name="plano_depois_validacao"></textarea></label>
+        </div>
+      </section>
+
+      <section id="decisao">
+        <h2>15. Decisão final: começar como?</h2>
+        <p class="hint">Feche com o próximo passo mais simples e a decisão que está sendo evitada.</p>
+        <div class="grid">
+          <label class="field"><span class="field-title">Qual caminho parece mais realista agora?</span>
+            <select name="decisao_caminho">
+              <option value=""></option>
+              <option>Começar com testes, sem vender ainda</option>
+              <option>Fazer pré-venda</option>
+              <option>Fazer primeiro lote pequeno</option>
+              <option>Esperar juntar mais dinheiro</option>
+              <option>Buscar empréstimo pequeno</option>
+              <option>Buscar empréstimo maior</option>
+              <option>Procurar parceria</option>
+              <option>Outro</option>
+            </select>
+          </label>
+          <label class="field"><span class="field-title">Próximo passo mais simples desta semana</span><textarea name="decisao_proximo_passo"></textarea></label>
+          <label class="field"><span class="field-title">Qual decisão está sendo evitada?</span><textarea name="decisao_evitada"></textarea></label>
+          <label class="field"><span class="field-title">O que te deixaria confiante para começar?</span><textarea name="decisao_confianca"></textarea></label>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Dica: exporte em JSON para preservar tudo e em Markdown para análise humana. O arquivo JSON pode ser importado novamente neste formulário.
+    </p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = "instante_ambar_planejamento_v1";
+
+    const starterRows = {
+      aromas: [
+        ["Lavanda", "", "Alta", "Precisa pesquisar"],
+        ["Capim-limão", "", "Alta", "Precisa pesquisar"]
+      ],
+      testadores: [["", "Quarto/Sala", "Aroma, queima, embalagem, intenção de compra", ""]],
+      fornecedores: [
+        ["Cera", "", "", "Precisa pesquisar"],
+        ["Essência", "", "", "Precisa pesquisar"],
+        ["Pote de vidro", "", "", "Precisa pesquisar"],
+        ["Pavio", "", "", "Precisa pesquisar"]
+      ],
+      custos: [
+        ["Cera", "", "", ""],
+        ["Essência", "", "", ""],
+        ["Pavio", "", "", ""],
+        ["Pote de vidro", "", "", ""],
+        ["Tampa", "", "", ""],
+        ["Etiqueta frontal", "", "", ""],
+        ["Etiqueta inferior", "", "", ""],
+        ["Embalagem simples", "", "", ""],
+        ["Perdas/testes", "", "", ""],
+        ["Taxa de pagamento", "", "", ""]
+      ],
+      investimentos: [
+        ["Balança", "Não", "Sim", ""],
+        ["Termômetro", "Não", "Sim", ""],
+        ["Jarra/panela", "Não", "Sim", ""],
+        ["Cera", "Não", "Sim", ""],
+        ["Essências", "Não", "Sim", ""],
+        ["Potes", "Não", "Sim", ""]
+      ],
+      primeiros_contatos: [["", "", "", ""]]
+    };
+
+    function slugify(str) {
+      return str.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_|_$/g, "");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    function createRepeatables() {
+      document.querySelectorAll("[data-repeat]").forEach(container => {
+        const key = container.dataset.repeat;
+        if (container.children.length === 0) {
+          (starterRows[key] || [["", "", "", ""]]).forEach(values => addRow(key, values, false));
+        }
+      });
+    }
+
+    function addRow(key, values = [], shouldSave = true) {
+      const container = document.querySelector(`[data-repeat="${key}"]`);
+      if (!container) return;
+
+      const cols = container.dataset.cols.split("|");
+      const row = document.createElement("div");
+      row.className = "repeat-row";
+      if (cols.length === 3) row.classList.add("three-cols");
+      if (cols.length >= 5) row.classList.add("six-cols");
+
+      cols.forEach((col, index) => {
+        const wrapper = document.createElement("label");
+        wrapper.className = "field";
+        const small = document.createElement("span");
+        small.className = "mini-label";
+        small.textContent = col;
+        const input = document.createElement("input");
+        input.name = `${key}__${slugify(col)}`;
+        input.value = values[index] || "";
+        input.addEventListener("input", () => { saveData(); updateProgress(); updateMetrics(); });
+        wrapper.appendChild(small);
+        wrapper.appendChild(input);
+        row.appendChild(wrapper);
+      });
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "remove";
+      remove.textContent = "×";
+      remove.title = "Remover linha";
+      remove.onclick = () => {
+        row.remove();
+        saveData();
+        updateProgress();
+        updateMetrics();
+      };
+      row.appendChild(remove);
+      container.appendChild(row);
+
+      if (shouldSave) {
+        saveData();
+        updateProgress();
+        updateMetrics();
+      }
+    }
+
+    function collectData() {
+      const data = {
+        meta: {
+          projeto: "Instante Âmbar",
+          formulario: "Planejamento de curto, médio e longo prazo",
+          versao: "1.0",
+          exportado_em: new Date().toISOString()
+        },
+        campos: {},
+        tabelas: {}
+      };
+
+      document.querySelectorAll("input, textarea, select").forEach(el => {
+        if (el.type === "file") return;
+        if (el.closest("[data-repeat]")) return;
+        data.campos[el.name || el.id] = el.type === "checkbox" ? el.checked : el.value;
+      });
+
+      document.querySelectorAll("[data-repeat]").forEach(container => {
+        const key = container.dataset.repeat;
+        const cols = container.dataset.cols.split("|").map(slugify);
+        data.tabelas[key] = [];
+        container.querySelectorAll(".repeat-row").forEach(row => {
+          const item = {};
+          row.querySelectorAll("input").forEach((input, index) => {
+            item[cols[index]] = input.value;
+          });
+          data.tabelas[key].push(item);
+        });
+      });
+
+      return data;
+    }
+
+    function applyData(data) {
+      if (!data) return;
+
+      if (data.campos) {
+        Object.entries(data.campos).forEach(([name, value]) => {
+          const el = document.querySelector(`[name="${CSS.escape(name)}"]`);
+          if (!el) return;
+          if (el.type === "checkbox") el.checked = !!value;
+          else el.value = value ?? "";
+        });
+      }
+
+      if (data.tabelas) {
+        Object.entries(data.tabelas).forEach(([key, rows]) => {
+          const container = document.querySelector(`[data-repeat="${key}"]`);
+          if (!container) return;
+          container.innerHTML = "";
+          const cols = container.dataset.cols.split("|").map(slugify);
+          (rows || []).forEach(row => {
+            addRow(key, cols.map(col => row[col] || ""), false);
+          });
+          if (!container.children.length) addRow(key, [], false);
+        });
+      }
+
+      updateProgress();
+      updateMetrics();
+      saveData(false);
+    }
+
+    function saveData(show = false) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
+      if (show) showToast("Salvo neste navegador.");
+    }
+
+    function loadData() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        applyData(JSON.parse(raw));
+      } catch (e) {
+        console.warn("Falha ao carregar dados salvos.", e);
+      }
+    }
+
+    function download(filename, text, type = "text/plain;charset=utf-8") {
+      const blob = new Blob([text], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function dateStamp() {
+      return new Date().toISOString().slice(0,10);
+    }
+
+    function exportJSON() {
+      const data = collectData();
+      download(`instante-ambar-planejamento-${dateStamp()}.json`, JSON.stringify(data, null, 2), "application/json;charset=utf-8");
+      showToast("JSON exportado.");
+    }
+
+    function labelFromName(name) {
+      const el = document.querySelector(`[name="${CSS.escape(name)}"]`);
+      const field = el?.closest(".field");
+      const title = field?.querySelector(".field-title")?.textContent;
+      if (title) return title.trim();
+      return name.replaceAll("_", " ");
+    }
+
+    function exportMarkdown() {
+      const data = collectData();
+      let md = `# Planejamento — Instante Âmbar\n\n`;
+      md += `Exportado em: ${new Date().toLocaleString("pt-BR")}\n\n`;
+
+      document.querySelectorAll("section").forEach(section => {
+        const title = section.querySelector("h2")?.textContent || "Seção";
+        md += `## ${title}\n\n`;
+
+        section.querySelectorAll("input, textarea, select").forEach(el => {
+          if (el.type === "file" || el.closest("[data-repeat]")) return;
+          const value = el.type === "checkbox" ? (el.checked ? "Sim" : "Não") : el.value;
+          if (value !== "" && value !== "Não") {
+            md += `**${labelFromName(el.name || el.id)}:**\n${value}\n\n`;
+          }
+        });
+
+        section.querySelectorAll("[data-repeat]").forEach(container => {
+          const key = container.dataset.repeat;
+          const colsOriginal = container.dataset.cols.split("|");
+          const cols = colsOriginal.map(slugify);
+          const rows = data.tabelas[key] || [];
+          if (!rows.length) return;
+          md += `### ${key.replaceAll("_", " ")}\n\n`;
+          md += `| ${colsOriginal.join(" | ")} |\n`;
+          md += `| ${colsOriginal.map(() => "---").join(" | ")} |\n`;
+          rows.forEach(row => {
+            md += `| ${cols.map(c => String(row[c] || "").replaceAll("\n", " ")).join(" | ")} |\n`;
+          });
+          md += `\n`;
+        });
+      });
+
+      download(`instante-ambar-planejamento-${dateStamp()}.md`, md, "text/markdown;charset=utf-8");
+      showToast("Markdown exportado.");
+    }
+
+    function exportCSV() {
+      const data = collectData();
+      const rows = [["tipo", "grupo", "campo", "valor"]];
+
+      Object.entries(data.campos).forEach(([key, value]) => {
+        rows.push(["campo", "", labelFromName(key), value]);
+      });
+
+      Object.entries(data.tabelas).forEach(([table, items]) => {
+        items.forEach((item, idx) => {
+          Object.entries(item).forEach(([key, value]) => {
+            rows.push(["tabela", `${table} #${idx+1}`, key, value]);
+          });
+        });
+      });
+
+      const csv = rows.map(row => row.map(cell => {
+        const value = String(cell ?? "");
+        return `"${value.replaceAll('"', '""')}"`;
+      }).join(",")).join("\n");
+
+      download(`instante-ambar-planejamento-${dateStamp()}.csv`, csv, "text/csv;charset=utf-8");
+      showToast("CSV exportado.");
+    }
+
+    function importJSON(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          applyData(data);
+          showToast("JSON importado com sucesso.");
+        } catch (e) {
+          showToast("Não consegui ler esse JSON.");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function clearAll() {
+      if (!confirm("Tem certeza que deseja apagar todas as respostas salvas neste navegador?")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      document.querySelectorAll("input, textarea, select").forEach(el => {
+        if (el.type === "file") return;
+        if (el.type === "checkbox") el.checked = false;
+        else el.value = "";
+      });
+      document.querySelectorAll("[data-repeat]").forEach(el => el.innerHTML = "");
+      createRepeatables();
+      updateProgress();
+      updateMetrics();
+      showToast("Respostas apagadas.");
+    }
+
+    function updateProgress() {
+      const fields = [...document.querySelectorAll("input, textarea, select")]
+        .filter(el => el.type !== "file" && el.name && !el.closest("[data-repeat]"));
+      const filled = fields.filter(el => el.type === "checkbox" ? el.checked : String(el.value).trim() !== "").length;
+      const percent = fields.length ? Math.round((filled / fields.length) * 100) : 0;
+      document.getElementById("progress").style.width = percent + "%";
+      document.getElementById("progressText").textContent = `${percent}% preenchido · ${filled}/${fields.length} campos`;
+    }
+
+    function parseBRL(value) {
+      if (value === null || value === undefined) return 0;
+      const str = String(value).trim().replace(/\./g, "").replace(",", ".");
+      const num = Number(str);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function formatBRL(value) {
+      return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    function updateMetrics() {
+      let custo = 0;
+      document.querySelectorAll('[data-repeat="custos"] .repeat-row').forEach(row => {
+        const inputs = row.querySelectorAll("input");
+        const custoPorVela = parseBRL(inputs[3]?.value);
+        custo += custoPorVela;
+      });
+
+      const preco = parseBRL(document.querySelector('[name="custos_preco_venda"]')?.value);
+      const lucro = preco - custo;
+      const margem = preco > 0 ? (lucro / preco) * 100 : 0;
+
+      document.getElementById("metricCusto").textContent = formatBRL(custo);
+      document.getElementById("metricPreco").textContent = formatBRL(preco);
+      document.getElementById("metricLucro").textContent = formatBRL(lucro);
+      document.getElementById("metricMargem").textContent = `${Math.round(margem)}%`;
+    }
+
+    function bindAutoSave() {
+      document.addEventListener("input", event => {
+        if (event.target.matches("input, textarea, select")) {
+          saveData();
+          updateProgress();
+          updateMetrics();
+        }
+      });
+      document.addEventListener("change", event => {
+        if (event.target.matches("input, textarea, select")) {
+          saveData();
+          updateProgress();
+          updateMetrics();
+        }
+      });
+    }
+
+    createRepeatables();
+    loadData();
+    bindAutoSave();
+    updateProgress();
+    updateMetrics();
+  </script>
+</body>
+</html>
